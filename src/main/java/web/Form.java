@@ -45,7 +45,7 @@ public class Form implements HttpHandler {
             response = this.getTemplate();
         }
 
-        httpExchange.sendResponseHeaders(200, response.length());
+        httpExchange.sendResponseHeaders(200, response.getBytes().length);
         OutputStream os = httpExchange.getResponseBody();
         os.write(response.getBytes());
         os.close();
