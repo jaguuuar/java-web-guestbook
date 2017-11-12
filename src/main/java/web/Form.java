@@ -4,6 +4,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dao.GuestDAO;
 import model.GuestModel;
+import org.jtwig.JtwigModel;
+import org.jtwig.JtwigTemplate;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -18,26 +20,9 @@ public class Form implements HttpHandler {
         String response = "";
         String method = httpExchange.getRequestMethod();
 
-        ArrayList<GuestModel> book = GuestDAO.getBook();
-        String bookString = this.getBookString(book);
-
-        String form = "<form method=\"POST\">\n" +
-                "  Message<br>\n" +
-                "  <input type=\"text\" name=\"message\" value=\"Msg\">\n" +
-                "  <br><br>\n" +
-                "  Name<br>\n" +
-                "  <input type=\"text\" name=\"name\" value=\"Cris\">\n" +
-                "  <br><br>\n" +
-                "  <input type=\"submit\" value=\"Submit\">\n" +
-                "</form> ";
-
         // Send a form if it wasn't submitted yet.
         if(method.equals("GET")){
-            response = "<html><body>" +
-                    "<h1>Simple Guestbook</h1>" +
-                    bookString +
-                    form +
-                    "</body></html>";
+            response = this.getTemplate();
         }
 
         // If the form was submitted, retrieve it's content.
@@ -57,14 +42,7 @@ public class Form implements HttpHandler {
 
             GuestDAO.insertMessage(guestMessage, guestName, messageDate);
 
-            book = GuestDAO.getBook();
-            bookString = this.getBookString(book);
-
-            response = "<html><body>" +
-                    "<h1>Simple Guestbook</h1>" +
-                    bookString +
-                    form +
-                    "</body><html>";
+            response = this.getTemplate();
         }
 
         httpExchange.sendResponseHeaders(200, response.length());
@@ -89,15 +67,18 @@ public class Form implements HttpHandler {
         return map;
     }
 
-    private String getBookString(ArrayList<GuestModel> book) {
+    private String getTemplate() {
 
+        ArrayList<GuestModel> book = GuestDAO.getBook();
         Collections.reverse(book);
-        String bookString = "";
 
-        for(GuestModel guest: book){
-            bookString += guest.toString();
-        }
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/guestBook.twig");
+        JtwigModel model = JtwigModel.newModel();
 
-        return bookString;
+        model.with("guestBook", book);
+
+        String response = template.render(model);
+
+        return response;
     }
 }

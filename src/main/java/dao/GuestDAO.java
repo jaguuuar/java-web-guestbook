@@ -14,7 +14,6 @@ public class GuestDAO {
             Class.forName("org.sqlite.JDBC");
             dbConnection = DriverManager.getConnection("jdbc:sqlite:database.db");
             dbConnection.setAutoCommit(false);
-            System.out.println("Opened database successfully");
 
             String insertTableSQL = "INSERT INTO guest (Message, Name, Date) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = dbConnection.prepareStatement(insertTableSQL);
@@ -30,7 +29,6 @@ public class GuestDAO {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        System.out.println("Records created successfully");
     }
 
     public static ArrayList<GuestModel> getBook() {
@@ -41,7 +39,6 @@ public class GuestDAO {
         try {
             Class.forName("org.sqlite.JDBC");
             dbConnection = DriverManager.getConnection("jdbc:sqlite:database.db");
-            System.out.println("Opened database successfully");
 
             String selectSQL = "SELECT * FROM guest;";
             PreparedStatement preparedStatement = dbConnection.prepareStatement(selectSQL);
@@ -61,10 +58,7 @@ public class GuestDAO {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        System.out.println("Records read successfully");
-
         return book;
-
     }
 
 }

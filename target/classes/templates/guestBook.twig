@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<h1>Simple Guestbook</h1>
+<section style="list-style-type:none">
+    {% for guest in guestBook %}
+        <section style="background-color:powderblue">
+                <li><b>{{ guest.message }}</b></li>
+                <li>Name: <b>{{ guest.name }}</b></li>
+                <li>Date: {{ guest.messageDate }}</li>
+        </section>
+        <br>
+    {% endfor %}
+</section>
+<form method="POST">
+        Message:<br>
+        <input type="text" name="message" value="Msg">
+        <br><br>
+        Name:<br>
+        <input type="text" name="name" value="Cris">
+        <br><br>
+        <input type="submit" value="Submit">
+</form>
+</body>
+</html>
