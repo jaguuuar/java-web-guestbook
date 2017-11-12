@@ -32,13 +32,13 @@ public class Form implements HttpHandler {
             String formData = br.readLine();
 
             System.out.println(formData);
-            Map inputs = parseFormData(formData);
+            Map<String, String> inputs = parseFormData(formData);
             DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
             Date date = new Date();
 
-            String guestMessage = inputs.get("message") + "";
-            String guestName = inputs.get("name") + "";
-            String messageDate = dateFormat.format(date) + "";
+            String guestMessage = inputs.get("message");
+            String guestName = inputs.get("name");
+            String messageDate = dateFormat.format(date);
 
             GuestDAO.insertMessage(guestMessage, guestName, messageDate);
 
