@@ -23,7 +23,7 @@ public class Form implements HttpHandler {
 
         String form = "<form method=\"POST\">\n" +
                 "  Message<br>\n" +
-                "  <input type=\"text\" name=\"message\" value=\"Msgy\">\n" +
+                "  <input type=\"text\" name=\"message\" value=\"Msg\">\n" +
                 "  <br><br>\n" +
                 "  Name<br>\n" +
                 "  <input type=\"text\" name=\"name\" value=\"Cris\">\n" +
